@@ -11,3 +11,5 @@ import hashlib
 import secrets
 from cryptography.fernet import Fernet
 import requests
+import warnings
+warnings.filterwarnings('ignore')
