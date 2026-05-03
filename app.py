@@ -13,3 +13,9 @@ from cryptography.fernet import Fernet
 import requests
 import warnings
 warnings.filterwarnings('ignore')
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'your-secret-key-here-change-in-production'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///budget_buddy.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
