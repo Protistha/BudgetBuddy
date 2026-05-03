@@ -19,3 +19,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///budget_buddy.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+# Encryption setup
+encryption_key = Fernet.generate_key()
+cipher_suite = Fernet(encryption_key)
