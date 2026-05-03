@@ -57,3 +57,52 @@ class BudgetLimit(db.Model):
 
 with app.app_context():
     db.create_all()
+# Helper Functions
+def encrypt_data(data):
+    return cipher_suite.encrypt(data.encode())
+
+def decrypt_data(encrypted_data):
+    return cipher_suite.decrypt(encrypted_data).decode()
+
+def calculate_net_worth(user_id):
+    transactions = Transaction.query.filter_by(user_id=user_id).all()
+    total_income = sum(t.amount for t in transactions if t.transaction_type == 'income')
+    total_expenses = sum(t.amount for t in transactions if t.transaction_type == 'expense')
+    return total_income - total_expenses
+
+def predict_future_expenses(user_id, months=3):
+    transactions = Transaction.query.filter_by(user_id=user_id, transaction_type='expense').all()
+    if len(transactions) < 3:
+        return None
+    
+    df = pd.DataFrame([(t.date, t.amount) for t in transactions], columns=['date', 'amount'])
+    df['date'] = pd.to_datetime(df['date'])
+    df = df.groupby(df['date'].dt.month).sum().reset_index()
+    
+    if len(df) < 2:
+        return None
+    
+    X = np.array(range(len(df))).reshape(-1, 1)
+    y = df['amount'].values
+    
+    model = LinearRegression()
+    model.fit(X, y)
+    
+    future_X = np.array(range(len(df), len(df) + months)).reshape(-1, 1)
+    predictions = model.predict(future_X)
+    return predictions
+
+def check_budget_alert(user_id, category, amount):
+    budget = BudgetLimit.query.filter_by(user_id=user_id, category=category).first()
+    if budget:
+        current_month = datetime.utcnow().month
+        monthly_expenses = Transaction.query.filter(
+            Transaction.user_id == user_id,
+            Transaction.category == category,
+            Transaction.transaction_type == 'expense',
+            db.extract('month', Transaction.date) == current_month
+        ).all()
+        total = sum(e.amount for e in monthly_expenses)
+        if total > budget.monthly_limit:
+            return f"Alert: Budget exceeded for {category}!"
+    return None
