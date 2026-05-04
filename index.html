@@ -85,3 +85,238 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
             margin-bottom: 30px;
         }
+.feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 6s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-100px) rotate(180deg); }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#" style="font-weight: 700; color: #667eea;">
+                <i class="fas fa-wallet"></i> Budget Buddy
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="btn btn-custom" href="#" onclick="showLoginModal()">Login</a></li>
+                    <li class="nav-item"><a class="btn btn-custom" href="#" onclick="showRegisterModal()">Register</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero-section" id="home">
+        <div class="container hero-content">
+            <h1 class="display-4">Take Control of Your Finances</h1>
+            <p class="lead">Smart budgeting, intelligent predictions, and financial freedom - all in one place</p>
+            <div>
+                <button class="btn btn-custom btn-lg" onclick="showRegisterModal()">
+                    <i class="fas fa-rocket"></i> Get Started
+                </button>
+                <button class="btn btn-outline-light btn-lg" onclick="showDemo()">
+                    <i class="fas fa-play"></i> Watch Demo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="features-section" id="features">
+        <div class="container">
+            <h2 class="text-center mb-5" style="color: #333;">Powerful Features</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-chart-line feature-icon"></i>
+                        <h4>AI Predictions</h4>
+                        <p>Smart expense predictions and future planning</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-chart-pie feature-icon"></i>
+                        <h4>Visual Reports</h4>
+                        <p>Interactive charts and graphs for insights</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-bullseye feature-icon"></i>
+                        <h4>Goal Tracking</h4>
+                        <p>Set and achieve financial goals</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-calculator feature-icon"></i>
+                        <h4>Tax Calculator</h4>
+                        <p>Accurate tax calculations and planning</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-exchange-alt feature-icon"></i>
+                        <h4>Currency Converter</h4>
+                        <p>Real-time currency conversion</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-robot feature-icon"></i>
+                        <h4>Smart Chatbot</h4>
+                        <p>Financial guidance at your fingertips</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login to Budget Buddy</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="loginUsername" class="form-control mb-3" placeholder="Username">
+                    <input type="password" id="loginPassword" class="form-control mb-3" placeholder="Password">
+                    <button class="btn btn-primary w-100" onclick="login()">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="regUsername" class="form-control mb-3" placeholder="Username">
+                    <input type="email" id="regEmail" class="form-control mb-3" placeholder="Email">
+                    <input type="password" id="regPassword" class="form-control mb-3" placeholder="Password">
+                    <button class="btn btn-primary w-100" onclick="register()">Register</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showLoginModal() {
+            new bootstrap.Modal(document.getElementById('loginModal')).show();
+        }
+
+        function showRegisterModal() {
+            new bootstrap.Modal(document.getElementById('registerModal')).show();
+        }
+
+        async function login() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username, password})
+            });
+            
+            if (response.ok) {
+                window.location.href = '/dashboard';
+            } else {
+                alert('Login failed');
+            }
+        }
+
+        async function register() {
+            const username = document.getElementById('regUsername').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            
+            const response = await fetch('/api/register', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username, email, password})
+            });
+            
+            if (response.ok) {
+                alert('Registration successful! Please login.');
+                bootstrap.Modal.getInstance(document.getElementById('registerModal')).hide();
+                showLoginModal();
+            } else {
+                alert('Registration failed');
+            }
+        }
+
+        function showDemo() {
+            alert("Welcome to Budget Buddy! Track expenses, set goals, and achieve financial freedom.");
+        }
+
+        // Particle animation
+        function createParticles() {
+            for(let i = 0; i < 50; i++) {
+                let particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.width = Math.random() * 10 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                document.querySelector('.hero-section').appendChild(particle);
+            }
+        }
+        createParticles();
+    </script>
+</body>
+</html>
