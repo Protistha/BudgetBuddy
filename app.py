@@ -13,15 +13,18 @@ from cryptography.fernet import Fernet
 import requests
 import warnings
 warnings.filterwarnings('ignore')
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key-here-change-in-production'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///budget_buddy.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+
 # Encryption setup
 encryption_key = Fernet.generate_key()
 cipher_suite = Fernet(encryption_key)
+
 # Database Models
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -57,6 +60,7 @@ class BudgetLimit(db.Model):
 
 with app.app_context():
     db.create_all()
+
 # Helper Functions
 def encrypt_data(data):
     return cipher_suite.encrypt(data.encode())
@@ -106,6 +110,7 @@ def check_budget_alert(user_id, category, amount):
         if total > budget.monthly_limit:
             return f"Alert: Budget exceeded for {category}!"
     return None
+
 # Routes
 @app.route('/')
 def index():
@@ -247,7 +252,8 @@ def get_chart_data():
         'pie_chart': expense_categories,
         'monthly_trend': monthly_data
     })
-    @app.route('/api/predict_expenses', methods=['GET'])
+
+@app.route('/api/predict_expenses', methods=['GET'])
 def predict_expenses():
     if 'user_id' not in session:
         return jsonify({'error': 'Unauthorized'}), 401
